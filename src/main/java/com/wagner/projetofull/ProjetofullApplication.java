@@ -1,13 +1,67 @@
 package com.wagner.projetofull;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-public class ProjetofullApplication {
+import com.wagner.projetofull.domain.Categoria;
+import com.wagner.projetofull.domain.Produto;
+import com.wagner.projetofull.repositories.CategoriaRepository;
+import com.wagner.projetofull.repositories.ProdutoRepository;
 
+@SpringBootApplication
+public class ProjetofullApplication  implements CommandLineRunner {
+	
+	
+	// OPÇÃO PARA GERAR O NOME DAS CATEGORIAS TODA VEZ QUE RODAR O BANCO DE DADOS,POREM O BANCO ELE É SALVO ENTAO NÃO SERVE PARA A  SITUAÇÃO
+	
+	 
+	
+	
+	
+	@Autowired
+	private CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	private ProdutoRepository produtoRepository;
+	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetofullApplication.class, args);
 	}
 
+	
+	
+	@Override
+	public void run(String... args) throws Exception {
+		
+		
+		Categoria cat1 = new Categoria (null,"Informática");
+		Categoria cat2 = new Categoria (null,"Escritório");
+		
+		Produto p1 = new Produto(null,"Computador", 2000.00);
+		Produto p2 = new Produto(null,"Impressora", 800.00);
+		Produto p3 = new Produto(null,"Mouse", 80.00);
+		
+		
+		cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
+		cat2.getProdutos().addAll(Arrays.asList(p2));
+		
+		p1.getCategorias().addAll(Arrays.asList(cat1));
+		p2.getCategorias().addAll(Arrays.asList(cat1 , cat2));
+		p3.getCategorias().addAll(Arrays.asList(cat1));
+		
+		categoriaRepository.saveAll(Arrays.asList(cat1,cat2));
+		
+		produtoRepository.saveAll(Arrays.asList(p1,p2,p3));
+		
+		
+		
+		
+	}
+	
+	
 }
