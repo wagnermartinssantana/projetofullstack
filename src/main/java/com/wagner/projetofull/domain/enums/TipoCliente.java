@@ -45,6 +45,13 @@ public enum TipoCliente {
 		
 	}
 
+*--------------------- no projeto broadfactor eu fiz funcionar o tipo enuns
+
+
+
 	 */
+	
+	
+	
 	
 }
