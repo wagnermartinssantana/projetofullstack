@@ -13,6 +13,7 @@ import com.wagner.projetofull.domain.Cidade;
 import com.wagner.projetofull.domain.Cliente;
 import com.wagner.projetofull.domain.Endereco;
 import com.wagner.projetofull.domain.Estado;
+import com.wagner.projetofull.domain.ItemPedido;
 import com.wagner.projetofull.domain.Pagamento;
 import com.wagner.projetofull.domain.PagamentoComBoleto;
 import com.wagner.projetofull.domain.PagamentoComCartao;
@@ -24,6 +25,7 @@ import com.wagner.projetofull.repositories.CidadeRepository;
 import com.wagner.projetofull.repositories.ClienteRepository;
 import com.wagner.projetofull.repositories.EnderecoRepository;
 import com.wagner.projetofull.repositories.EstadoRepository;
+import com.wagner.projetofull.repositories.ItemPedidoRepository;
 import com.wagner.projetofull.repositories.PagamentoRepository;
 import com.wagner.projetofull.repositories.PedidoRepository;
 import com.wagner.projetofull.repositories.ProdutoRepository;
@@ -62,7 +64,9 @@ public class ProjetofullApplication  implements CommandLineRunner {
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
 	
-
+	@Autowired
+	private ItemPedidoRepository itempedidoRepository;
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetofullApplication.class, args);
@@ -140,8 +144,22 @@ public class ProjetofullApplication  implements CommandLineRunner {
 		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 				
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
-		
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1,p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1,p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2,p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itempedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
+		
 		
 	}
 	
